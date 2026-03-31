@@ -1,0 +1,55 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# Environment Variables (NEVER commit secrets)
+.env
+.env.local
+.env.test.local
+.env.production.local
+.env.*.local
+
+# Production Build
+build/
+dist/
+
+# OS Files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# IDE & Editor Files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+.atom/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Testing
+coverage/
+.nyc_output/
+*.lcov
+
+# Development Tools
+.react/
+.cache/
+
+# Misc
+.env.test
+.DS_Store
+Thumbs.db

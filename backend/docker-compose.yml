@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:6
+    container_name: equipment-management-db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+      - mongodb_config:/data/configdb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: equipment-management
+    networks:
+      - equipment-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: .
+    container_name: equipment-management-api
+    ports:
+      - "5000:3000"
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      MONGO_URI: mongodb://admin:password@mongodb:27017/equipment-management?authSource=admin
+      JWT_SECRET: your_jwt_secret_key_here_change_in_production
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    volumes:
+      - ./src:/app/src
+      - /app/node_modules
+    networks:
+      - equipment-network
+    command: npm run dev
+
+  frontend:
+    image: node:18-alpine
+    container_name: equipment-management-ui
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../frontend:/app
+      - /app/node_modules
+    environment:
+      REACT_APP_API_URL: http://localhost:5000/api
+    networks:
+      - equipment-network
+    command: npm start
+
+volumes:
+  mongodb_data:
+  mongodb_config:
+
+networks:
+  equipment-network:
+    driver: bridge
