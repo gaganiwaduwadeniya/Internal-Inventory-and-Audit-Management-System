@@ -72,19 +72,24 @@ export function RegisterPage() {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('Employee');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
     setLoading(true);
 
     try {
-      const response = await authService.register(username, email, password, role);
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
-      navigate(response.data.user.role === 'Admin' ? '/admin-dashboard' : '/employee-dashboard');
+      await authService.register(username, email, password, role);
+      setSuccess('Registration successful! Redirecting to login...');
+      
+      // Redirect to login after 2 seconds
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed');
     } finally {
@@ -98,6 +103,7 @@ export function RegisterPage() {
         <h1>Equipment Management System</h1>
         <h2>Register</h2>
         {error && <div className="error-message">{error}</div>}
+        {success && <div className="success-message">{success}</div>}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="username">Username:</label>
@@ -107,6 +113,7 @@ export function RegisterPage() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
+              disabled={!!success}
             />
           </div>
           <div className="form-group">
@@ -117,6 +124,7 @@ export function RegisterPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              disabled={!!success}
             />
           </div>
           <div className="form-group">
@@ -127,16 +135,17 @@ export function RegisterPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              disabled={!!success}
             />
           </div>
           <div className="form-group">
             <label htmlFor="role">Role:</label>
-            <select id="role" value={role} onChange={(e) => setRole(e.target.value)}>
+            <select id="role" value={role} onChange={(e) => setRole(e.target.value)} disabled={!!success}>
               <option value="Employee">Employee</option>
               <option value="Admin">Admin</option>
             </select>
           </div>
-          <button type="submit" disabled={loading}>
+          <button type="submit" disabled={loading || !!success}>
             {loading ? 'Registering...' : 'Register'}
           </button>
         </form>
