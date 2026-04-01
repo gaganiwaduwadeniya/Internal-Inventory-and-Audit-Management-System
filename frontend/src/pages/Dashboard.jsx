@@ -208,47 +208,49 @@ export function AdminDashboard() {
           ) : equipment.length === 0 ? (
             <p>No equipment records found</p>
           ) : (
-            <table className="equipment-table">
-              <thead>
-                <tr>
-                  <th>Device Name</th>
-                  <th>Serial Number</th>
-                  <th>Assigned To</th>
-                  <th>Assigned Date</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {equipment.map((item) => (
-                  <tr key={item._id}>
-                    <td>{item.deviceName}</td>
-                    <td>{item.serialNumber}</td>
-                    <td>{item.assignedTo.username}</td>
-                    <td>{new Date(item.assignedDate).toLocaleDateString()}</td>
-                    <td>
-                      <select
-                        value={item.status}
-                        onChange={(e) => handleStatusChange(item._id, e.target.value)}
-                        className="status-select"
-                      >
-                        <option value="Active">Active</option>
-                        <option value="Damaged">Damaged</option>
-                        <option value="Retired">Retired</option>
-                      </select>
-                    </td>
-                    <td>
-                      <button
-                        onClick={() => handleDelete(item._id)}
-                        className="delete-btn"
-                      >
-                        Delete
-                      </button>
-                    </td>
+            <div className="table-wrapper">
+              <table className="equipment-table">
+                <thead>
+                  <tr>
+                    <th>Device Name</th>
+                    <th>Serial Number</th>
+                    <th>Assigned To</th>
+                    <th>Assigned Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {equipment.map((item) => (
+                    <tr key={item._id}>
+                      <td>{item.deviceName}</td>
+                      <td>{item.serialNumber}</td>
+                      <td>{item.assignedTo.username}</td>
+                      <td>{new Date(item.assignedDate).toLocaleDateString()}</td>
+                      <td>
+                        <select
+                          value={item.status}
+                          onChange={(e) => handleStatusChange(item._id, e.target.value)}
+                          className="status-select"
+                        >
+                          <option value="Active">Active</option>
+                          <option value="Damaged">Damaged</option>
+                          <option value="Retired">Retired</option>
+                        </select>
+                      </td>
+                      <td>
+                        <button
+                          onClick={() => handleDelete(item._id)}
+                          className="delete-btn"
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </section>
       </div>
