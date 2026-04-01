@@ -2,10 +2,7 @@
   "buildCommand": "npm run build",
   "outputDirectory": "build",
   "env": {
-    "REACT_APP_API_URL": {
-      "value": "https://api.yourdomain.com/api",
-      "description": "Backend API URL"
-    }
+    "REACT_APP_API_URL": "https://internal-inventory-and-audit-management-system-production.up.railway.app/api"
   },
   "headers": [
     {
