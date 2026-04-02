@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../utils/services';
+import { validatePassword } from '../utils/passwordValidator';
 import '../styles/auth.css';
 
 export function LoginPage() {
@@ -61,6 +62,9 @@ export function LoginPage() {
         <p style={{ marginTop: '8px', textAlign: 'center', marginBottom: 0 }}>
           Don't have an account? <a href="/register">Register here</a>
         </p>
+        <p style={{ marginTop: '8px', textAlign: 'center', marginBottom: 0 }}>
+          Forgot password? <a href="/forgot-password">Reset here</a>
+        </p>
       </div>
     </div>
   );
@@ -74,12 +78,27 @@ export function RegisterPage() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (password) {
+      setPasswordStrength(validatePassword(password));
+    } else {
+      setPasswordStrength(null);
+    }
+  }, [password]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setSuccess('');
+
+    if (!passwordStrength?.isValid) {
+      setError('Password does not meet complexity requirements');
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -137,6 +156,32 @@ export function RegisterPage() {
               required
               disabled={!!success}
             />
+            {passwordStrength && (
+              <div style={{ marginTop: '8px', fontSize: '0.9rem' }}>
+                <div style={{ 
+                  color: passwordStrength.isValid ? '#28a745' : '#dc3545',
+                  fontWeight: 'bold'
+                }}>
+                  Strength: {passwordStrength.strength.toUpperCase()}
+                </div>
+                <div style={{ marginTop: '8px', fontSize: '0.85rem' }}>
+                  {!passwordStrength.requirements.minLength && <div>❌ At least 8 characters</div>}
+                  {passwordStrength.requirements.minLength && <div style={{ color: '#28a745' }}>✓ At least 8 characters</div>}
+                  
+                  {!passwordStrength.requirements.hasUppercase && <div>❌ One uppercase letter</div>}
+                  {passwordStrength.requirements.hasUppercase && <div style={{ color: '#28a745' }}>✓ One uppercase letter</div>}
+                  
+                  {!passwordStrength.requirements.hasLowercase && <div>❌ One lowercase letter</div>}
+                  {passwordStrength.requirements.hasLowercase && <div style={{ color: '#28a745' }}>✓ One lowercase letter</div>}
+                  
+                  {!passwordStrength.requirements.hasNumber && <div>❌ One number</div>}
+                  {passwordStrength.requirements.hasNumber && <div style={{ color: '#28a745' }}>✓ One number</div>}
+                  
+                  {!passwordStrength.requirements.hasSpecialChar && <div>❌ One special character</div>}
+                  {passwordStrength.requirements.hasSpecialChar && <div style={{ color: '#28a745' }}>✓ One special character</div>}
+                </div>
+              </div>
+            )}
           </div>
           <div className="form-group">
             <label htmlFor="role">Role:</label>
@@ -145,7 +190,7 @@ export function RegisterPage() {
               <option value="Admin">Admin</option>
             </select>
           </div>
-          <button type="submit" disabled={loading || !!success}>
+          <button type="submit" disabled={loading || !!success || !passwordStrength?.isValid}>
             {loading ? 'Registering...' : 'Register'}
           </button>
         </form>

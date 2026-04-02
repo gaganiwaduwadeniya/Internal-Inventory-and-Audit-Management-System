@@ -10,6 +10,12 @@ export const authService = {
   getMe: () =>
     api.get('/auth/me'),
 
+  forgotPassword: (email) =>
+    api.post('/auth/forgot-password', { email }),
+
+  resetPassword: (email, token, newPassword) =>
+    api.post('/auth/reset-password', { email, token, newPassword }),
+
   logout: () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
