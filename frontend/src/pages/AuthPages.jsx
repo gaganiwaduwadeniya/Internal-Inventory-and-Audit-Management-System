@@ -62,9 +62,6 @@ export function LoginPage() {
         <p style={{ marginTop: '8px', textAlign: 'center', marginBottom: 0 }}>
           Don't have an account? <a href="/register">Register here</a>
         </p>
-        <p style={{ marginTop: '8px', textAlign: 'center', marginBottom: 0 }}>
-          Forgot password? <a href="/forgot-password">Reset here</a>
-        </p>
       </div>
     </div>
   );
