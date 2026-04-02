@@ -2,8 +2,7 @@
 
 A secure, full-stack application for managing equipment with role-based access control (RBAC).
 
-**Live Demo:** [Frontend](https://internal-inventory-and-audit-manage.vercel.app) | [Backend API](https://internal-inventory-and-audit-management-system-production.up.railway.app)
-
+**Live Demo:** [Frontend](https://internal-inventory-and-audit-manage.vercel.app)
 ## Quick Start
 
 ### Prerequisites
