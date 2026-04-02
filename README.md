@@ -7,7 +7,7 @@ A secure, full-stack application for managing equipment with role-based access c
 ## Quick Start
 
 ### Prerequisites
-- Node.js v14+
+- Node.js 
 - MongoDB (local or [Atlas](https://www.mongodb.com/cloud/atlas))
 
 ### Backend Setup
@@ -40,9 +40,9 @@ npm start
 - Delete equipment records
 
 ### Security
-- ✅ JWT authentication (24h expiration)
+- ✅ JWT authentication 
 - ✅ bcryptjs password hashing
-- ✅ Role-based access control (RBAC)
+- ✅ Role-based access control 
 - ✅ Authorization middleware on protected endpoints
 
 ## Tech Stack
@@ -50,16 +50,6 @@ npm start
 **Backend:** Node.js, Express, MongoDB, Mongoose, JWT  
 **Frontend:** React 18, React Router, Axios, CSS3
 
-## Key Endpoints
-
-| Method | Endpoint | Description | Auth |
-|--------|----------|-------------|------|
-| POST | `/api/auth/register` | Register user | Public |
-| POST | `/api/auth/login` | Login user | Public |
-| POST | `/api/equipment` | Create equipment | User |
-| GET | `/api/equipment` | Get user/all equipment | User |
-| PUT | `/api/equipment/:id` | Update status | Admin |
-| DELETE | `/api/equipment/:id` | Delete equipment | Admin |
 
 ## Test Accounts
 
@@ -87,54 +77,12 @@ npm run build      # Production build
 npm test           # Run tests
 ```
 
-## Project Structure
-
-```
-backend/src/
-├── controllers/    # Business logic
-├── models/         # Mongoose schemas
-├── routes/         # API endpoints
-├── middleware/     # Auth & validation
-├── utils/          # Helper functions
-└── config/         # Database connection
-
-frontend/src/
-├── pages/          # Employee/Admin dashboards
-├── components/     # Reusable UI components
-├── utils/          # API services
-└── styles/         # CSS (mobile-first responsive)
-```
-
-## Documentation
-
-- [API Documentation](API_DOCUMENTATION.md)
-- [Setup & Design Decisions](SETUP_AND_DESIGN.md)
-- [Requirements Checklist](REQUIREMENTS_CHECKLIST.md)
-
 ## Deployment
 
 **Backend:** Railway (Auto-deploys on git push)  
 **Frontend:** Vercel (Auto-deploys on git push)  
 **Database:** MongoDB Atlas
 
-## Troubleshooting
 
-| Issue | Solution |
-|-------|----------|
-| MongoDB connection fails | Check `MONGO_URI` in `.env` and ensure MongoDB is running |
-| Port 5000/3000 in use | Edit `.env` PORT variable or use `PORT=3001 npm start` |
-| CORS errors | Ensure backend is running on correct port |
-| JWT errors | Clear localStorage and login again |
 
-## Future Enhancements
 
-- Search & advanced filtering
-- Equipment history/audit logs
-- File upload support
-- Email notifications
-- Two-factor authentication
-- Advanced RBAC with more roles
-
-## License
-
-ISC
