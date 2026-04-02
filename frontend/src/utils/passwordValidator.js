@@ -8,7 +8,7 @@ export const validatePassword = (password) => {
     hasUppercase: /[A-Z]/.test(password),
     hasLowercase: /[a-z]/.test(password),
     hasNumber: /[0-9]/.test(password),
-    hasSpecialChar: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)
+    hasSpecialChar: /[!@#$%^&*()_+\-={};':"\\|,.<>/?]/.test(password)
   };
 
   const passedCount = Object.values(requirements).filter(v => v).length;

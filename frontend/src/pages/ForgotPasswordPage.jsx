@@ -17,7 +17,7 @@ export function ForgotPasswordPage() {
     setLoading(true);
 
     try {
-      const response = await authService.forgotPassword(email);
+      await authService.forgotPassword(email);
       setSuccess('Password reset link has been sent to your email!');
       
       setTimeout(() => {
